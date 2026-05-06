@@ -1,28 +1,23 @@
-// Scroll suave
-document.querySelectorAll('a[href^="#"]').forEach(link => {
-  link.addEventListener("click", e => {
-    e.preventDefault();
-    const target = document.querySelector(link.getAttribute("href"));
-    target?.scrollIntoView({ behavior: "smooth" });
+// ESPERA O DOM CARREGAR
+document.addEventListener("DOMContentLoaded", () => {
+
+  const menuToggle = document.querySelector('.menu-toggle');
+  const menu = document.querySelector('.menu');
+
+  // segurança pra evitar erro
+  if (!menuToggle || !menu) return;
+
+  menuToggle.addEventListener('click', () => {
+    menu.classList.toggle('active');
+    menuToggle.classList.toggle('active');
   });
-});
 
-// Formulário de contato
-document.getElementById("contact-form").addEventListener("submit", e => {
-  e.preventDefault();
+  // FECHAR AO CLICAR NO LINK
+  document.querySelectorAll('.menu a').forEach(link => {
+    link.addEventListener('click', () => {
+      menu.classList.remove('active');
+      menuToggle.classList.remove('active');
+    });
+  });
 
-  const nome = e.target.nome.value.trim();
-  const email = e.target.email.value.trim();
-  const msg = e.target.mensagem.value.trim();
-  const output = document.getElementById("form-message");
-
-  if (!nome || !email || !msg) {
-    output.textContent = "Por favor, preencha todos os campos.";
-    output.style.color = "red";
-    return;
-  }
-
-  output.textContent = "Mensagem enviada com sucesso! 🎉";
-  output.style.color = "green";
-  e.target.reset();
 });
